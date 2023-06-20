@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<map_list>
+	<map>
+		<screen version="2.0" scriptcode="java" title="제목없음입니다" directory="/dir1/" screenid="SCREEN0001" last_update_date="2023-06-02 23:30:50" screen_version="" custom_test="0"/>
+		<pushbutton control_id="0" name="btn_test" x="150" y="120" width="100" height="26" on_mouseup="eventfunc:btn_test_on_mouseup(objInst)" version="1.1"/>
+	</map>
+</map_list>
