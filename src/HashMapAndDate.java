@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.time.Instant;
+import java.util.*;
 import java.util.Date;
-import java.util.HashMap;
 
 public class HashMapAndDate {
     public static void main(String[] args) {
@@ -12,15 +12,15 @@ public class HashMapAndDate {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.252:1521:xe","system","oracle");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","test","test");
             stat = conn.createStatement();
 
             sql = "select sysdate from dual";
             ResultSet rs = stat.executeQuery(sql);
 
             while (rs.next()) {
-                map.put("oracle date value", rs.getObject(1));
-                map.put("oracle date simple name", rs.getObject(1).getClass().getSimpleName());
+                map.put("oracle SYSDATE value", rs.getObject(1));
+                map.put("oracle SYSDATE simple name", rs.getObject(1).getClass().getSimpleName());
             }
 
 
@@ -30,17 +30,30 @@ public class HashMapAndDate {
 
         Date date = new Date();
         date.setTime(new Date().getTime());
-        map.put("java date value", date);
-        map.put("java date simple name", date.getClass().getSimpleName());
+        map.put("java Date value", date);
+        map.put("java Date simple name", date.getClass().getSimpleName());
 
         Timestamp timestamp = Timestamp.from(Instant.now());
-        map.put("java timestamp value", timestamp);
-        map.put("java timestamp simple name", timestamp.getClass().getSimpleName());
+        map.put("java Timestamp value", timestamp);
+        map.put("java Timestamp simple name", timestamp.getClass().getSimpleName());
 
 
-        System.out.println(map);
+        List<String> keySet = new ArrayList<>(map.keySet());
+        Collections.sort(keySet);
+
+        Iterator<String> keys = keySet.iterator();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            System.out.printf("%s : %s %s", key, map.get(key), System.lineSeparator());
+        }
+
 
         //Result
-        //{oracle date simple name=Timestamp, java timestamp simple name=Timestamp, java timestamp value=2023-03-25 09:40:09.886, oracle date value=2023-03-25 00:40:09.0, java date value=Sat Mar 25 09:40:09 KST 2023, java date simple name=Date}
+//        java Date simple name : Date
+//        java Date value : Sat Oct 21 10:25:21 KST 2023
+//        java Timestamp simple name : Timestamp
+//        java Timestamp value : 2023-10-21 10:25:21.367
+//        oracle SYSDATE simple name : Timestamp
+//        oracle SYSDATE value : 2023-10-21 10:25:21.0
     }
 }
